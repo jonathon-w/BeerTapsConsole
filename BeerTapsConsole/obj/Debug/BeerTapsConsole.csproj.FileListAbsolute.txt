@@ -1,0 +1,8 @@
+c:\users\jonathon.wells\documents\visual studio 2015\Projects\BeerTapsConsole\BeerTapsConsole\bin\Debug\BeerTapsConsole.exe.config
+c:\users\jonathon.wells\documents\visual studio 2015\Projects\BeerTapsConsole\BeerTapsConsole\bin\Debug\BeerTapsConsole.exe
+c:\users\jonathon.wells\documents\visual studio 2015\Projects\BeerTapsConsole\BeerTapsConsole\bin\Debug\BeerTapsConsole.pdb
+c:\users\jonathon.wells\documents\visual studio 2015\Projects\BeerTapsConsole\BeerTapsConsole\obj\Debug\BeerTapsConsole.csprojResolveAssemblyReference.cache
+c:\users\jonathon.wells\documents\visual studio 2015\Projects\BeerTapsConsole\BeerTapsConsole\obj\Debug\BeerTapsConsole.exe
+c:\users\jonathon.wells\documents\visual studio 2015\Projects\BeerTapsConsole\BeerTapsConsole\obj\Debug\BeerTapsConsole.pdb
+C:\Users\Jonathon.Wells\Documents\Visual Studio 2015\Projects\BeerTapsConsole\BeerTapsConsole\bin\Debug\Newtonsoft.Json.dll
+C:\Users\Jonathon.Wells\Documents\Visual Studio 2015\Projects\BeerTapsConsole\BeerTapsConsole\bin\Debug\Newtonsoft.Json.xml
