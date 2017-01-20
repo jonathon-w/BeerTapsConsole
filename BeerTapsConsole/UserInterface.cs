@@ -119,36 +119,6 @@ namespace BeerTapsConsole
 				//				input = Console.ReadKey();
 
 			} while (input.Key != ConsoleKey.Escape);
-			
-
-//			Console.Write("\n=========================================\n" +
-//			              "|Enter Id : ");
-//			input = Convert.ToInt32(Console.ReadLine());
-//			Console.WriteLine("=========================================\n");
-//			
-//			string nextTargetUri = default(string);
-//			foreach (Office office in parsedResponse)
-//			{
-//				if (office.Id == input)
-//				{
-//					nextTargetUri = UriBase + office.Links.IqBeerTaps.Href;
-//					break;
-//				}
-//			}
-//			if (nextTargetUri != default(string))
-//			{
-//				Task<string> nextTargetResponse = HttpProtocols.GetResponseAsync(nextTargetUri);
-//				Task.WaitAll();
-//				IList<BeerTap> nextParsedResponse = ParseResponse<BeerTap>.ParseForAll(nextTargetResponse.Result);
-//
-//				Print.PrintAllBeerTaps(nextParsedResponse, parsedResponse[input - 1].Location);
-//			}
-//			else
-//			{
-//				Console.WriteLine("{0} is not valid", input);
-//			}
-//			
-//			Console.ReadLine();
 		}
 	}
 }
