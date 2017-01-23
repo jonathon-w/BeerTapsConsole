@@ -51,14 +51,11 @@ namespace BeerTapsConsole
 					"|Id : {0}\n" +
 					"|Beer : {1}\n" +
 					"|Volume : {2}/{3}\n" +
-					"|Links : \n" +
-					"|-Self : {4}\n" +
 					"=========================================",
 					beerTap.Id,
 					beerTap.BeerName,
 					beerTap.CurrentVolume,
-					beerTap.TotalVolume,
-					beerTap.Links.Self.Href);
+					beerTap.TotalVolume);
 			}
 		}
 
@@ -78,14 +75,11 @@ namespace BeerTapsConsole
 				"|Id : {0}\n" +
 				"|Beer : {1}\n" +
 				"|Volume : {2}/{3}\n" +
-				"|Links : \n" +
-				"|-Self : {4}\n" +
 				"=========================================",
 				beerTap.Id,
 				beerTap.BeerName,
 				beerTap.CurrentVolume,
-				beerTap.TotalVolume,
-				beerTap.Links.Self.Href);
+				beerTap.TotalVolume);
 		}
 	}
 }

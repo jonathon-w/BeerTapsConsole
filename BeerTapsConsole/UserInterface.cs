@@ -14,19 +14,7 @@ namespace BeerTapsConsole
 	class UserInterface
 	{
 		public const string UriBase = "http://localhost:61284/";
-
-		// Offices(x)/Beertaps
-		public static Regex beerTapsAll = new Regex(@"\b(Offices\()\b\d+\)/\b(Beertaps)\b$");
-
-		// Offices(x)/Beertaps(x)
-		public static Regex beerTapsIndividual = new Regex(@"\b(Offices\()\b\d+\)/\b(Beertaps\()\b\d{1,2}\)");
-
-		// Offices(x)/Beertaps(x)/ReplaceKeg
-		public static Regex replaceKegAll = new Regex(@"\b(Offices\()\b\d+\)/\bBeertaps\b\(\b\d+\)/\bReplaceKeg\b");
-
-		// // Offices(x)/Beertaps(x)/ReplaceKeg(x)
-		public static Regex replaceKegIndividual = new Regex(@"\b(Offices\()\b\d+\)/\bBeertaps\b\(\b\d+\)/\bReplaceKeg\b\(\b\d+\)");
-
+		
 		static void Main()
 		{
 			ConsoleKeyInfo input;
@@ -49,10 +37,11 @@ namespace BeerTapsConsole
 					IList<Office> parsedResponse = ParseResponse<Office>.ParseForAll(targetResponse.Result);
 					Print.PrintAllOffices(parsedResponse);
 
-					Console.Write("=========================================\n" +
-								  "|Enter Id, or <Esc> to exit : ");
+					Console.WriteLine("=========================================\n" +
+									  "|<1-9> : View individual office\n" +
+									  "|<Esc> : Exit\n" +
+									  "=========================================\n");
 					input = Console.ReadKey();
-					Console.WriteLine("\n=========================================\n");
 
 					foreach (Office office in parsedResponse)
 					{
@@ -67,16 +56,18 @@ namespace BeerTapsConsole
 					}
 				}
 				// /Offices(x)/Beertaps
-				else if (beerTapsAll.IsMatch(targetUri))
+				else if (UriRegex.BeerTapsAll.IsMatch(targetUri))
 				{
 					Task<string> targetResponse = HttpProtocols.GetResponseAsync(targetUri);
 					IList<BeerTap> parsedResponse = ParseResponse<BeerTap>.ParseForAll(targetResponse.Result);
 					Print.PrintAllBeerTaps(parsedResponse, officeLocation);
 
-					Console.Write("=========================================\n" +
-					              "|Enter Id, <Backspace> to go back, or <Esc> to exit : ");
+					Console.WriteLine("=========================================\n" +
+									  "|<1-9> : View individual tap\n" +
+									  "|<Backspace> : Back\n" +
+									  "|<Esc> : Exit\n" +
+									  "=========================================\n");
 					input = Console.ReadKey();
-					Console.WriteLine("\n=========================================\n");
 
 					foreach (BeerTap beerTap in parsedResponse)
 					{
@@ -95,20 +86,35 @@ namespace BeerTapsConsole
 					}
 				}
 				// /Offices(x)/Beertaps(x)
-				else if (beerTapsIndividual.IsMatch(targetUri))
+				else if (UriRegex.BeerTapsIndividual.IsMatch(targetUri))
 				{
 					Task<string> targetResponse = HttpProtocols.GetResponseAsync(targetUri);
 					BeerTap parsedResponse = ParseResponse<BeerTap>.ParseForIndividual(targetResponse.Result); 
 					Print.PrintIndividualBeerTap(parsedResponse, officeLocation);
 
-					Console.Write("=========================================\n" +
-								  "|Enter Id, <Backspace> to go back, or <Esc> to exit : ");
+					Console.WriteLine("=========================================\n" +
+									  "|<1> : Pour a pint\n" +
+									  "|<2> : View replacement kegs\n" +
+									  "|<Backspace> : Back\n" +
+									  "|<Esc> : Exit\n" +
+									  "=========================================\n");
 					input = Console.ReadKey();
-					Console.WriteLine("\n=========================================\n");
 
 					if (input.Key == ConsoleKey.Backspace)
 					{
 						targetUri = UriStack.Pop();
+					}
+					else if (input.Key == ConsoleKey.D1)
+					{
+						dynamic jsonObject = new JObject();
+						jsonObject.OfficeId = parsedResponse.OfficeId;
+						jsonObject.Id = parsedResponse.Id;
+
+						var postContent = new StringContent(jsonObject.ToString(), Encoding.UTF8, "application/json");
+
+						Task postTargetResponse = HttpProtocols.PostRequestAsync(targetUri, postContent);
+//						BeerTap newParsedResponse = ParseResponse<BeerTap>.ParseForIndividual(postTargetResponse.Result);
+//						Print.PrintIndividualBeerTap(newParsedResponse, officeLocation);
 					}
 				}
 				else
@@ -116,9 +122,22 @@ namespace BeerTapsConsole
 					input = Console.ReadKey();
 				}
 
-				//				input = Console.ReadKey();
-
 			} while (input.Key != ConsoleKey.Escape);
+		}
+
+		private static class UriRegex
+		{
+			// Offices(x)/Beertaps
+			public static readonly Regex BeerTapsAll = new Regex(@"\b(Offices\()\b\d+\)/\b(Beertaps)\b$");
+
+			// Offices(x)/Beertaps(x)
+			public static readonly Regex BeerTapsIndividual = new Regex(@"\b(Offices\()\b\d+\)/\b(Beertaps\()\b\d{1,2}\)");
+
+			// Offices(x)/Beertaps(x)/ReplaceKeg
+			public static readonly Regex ReplaceKegAll = new Regex(@"\b(Offices\()\b\d+\)/\bBeertaps\b\(\b\d+\)/\bReplaceKeg\b");
+
+			// // Offices(x)/Beertaps(x)/ReplaceKeg(x)
+			public static readonly Regex ReplaceKegIndividual = new Regex(@"\b(Offices\()\b\d+\)/\bBeertaps\b\(\b\d+\)/\bReplaceKeg\b\(\b\d+\)");
 		}
 	}
 }
